@@ -51,7 +51,6 @@ The available community dataset contains only final answers; however, we posit t
   title={Omni-Mol: Multitask Molecular Model for Any-to-any Modalities},
   author={Chengxin Hu and Hao Li and Yihe Yuan and Zezheng Song and Chenyang Zhao and Haixin Wang},
   booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
-  year={2025},
-  url={https://openreview.net/forum?id=dw9H08UxJb}
+  year={2025}
 }
 ```
