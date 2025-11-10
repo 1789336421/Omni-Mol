@@ -1,7 +1,22 @@
 # Omni-Mol: Multitask Molecular Model for Any-to-any Modalities
-GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modalities*, Link: https://arxiv.org/abs/2502.01074
+GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modalities*
+
+<div align="center">
+<div style="text-align: center;">
+  <a href="https://huggingface.co/datasets/CodeMagic/Omni-Mol-Dataset">
+    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="hf" width="100" style="margin: 0 120px;">
+  </a>
+  
+  <a href="https://arxiv.org/abs/2502.01074">
+    <img src="https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-one-color-white.svg" alt="LinkedIn" width="160" style="margin: 0 120px;">
+  </a>
+</div>
+</div>
+
+
 
 ## 🔉 News
+- [2025.11] We release our dataset.
 - [2025.10] We are cleaning our code and peparing the data, they will be released soon.
 - [2025.09] The paper is accepted by NeurIPS2025.
 
