@@ -4,7 +4,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 <div align="center">
 
 <a href="https://arxiv.org/abs/2502.01074"><img src="https://img.shields.io/static/v1?label=NeurIPS2025&message=Paper&color=red"></a>
-<a href="https://huggingface.co/datasets/CodeMagic/Omni-Mol-Dataset"><img src="https://img.shields.io/static/v1?label=🤗HuggingFace&message=Models%20Data&color=yellow"></a>
+<a href="https://huggingface.co/datasets/CodeMagic/Omni-Mol-Dataset"><img src="https://img.shields.io/static/v1?label=🤗HuggingFace&message=Models+Data&color=yellow"></a>
 <img src="https://img.shields.io/badge/Num_Tasks-16-blue">
 [![GitHub Repo stars](https://img.shields.io/github/stars/1789336421/Omni-Mol)](https://github.com/1789336421/Omni-Mol/stargazers)
 

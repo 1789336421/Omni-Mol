@@ -3,13 +3,13 @@
 set -e
 
 # Base directories
-DATA_BASE_DIR="/root/WDHDD2TB/download/dataset/Omni-Mol-Dataset/test"
-SAVE_BASE_DIR="infer/rewrite_dataset"
+DATA_BASE_DIR="<path to>/Omni-Mol-Dataset/test"
+SAVE_BASE_DIR="infer/version1/2/"
 
 # Model and system paths
-MODEL_PATH="/root/autodl-tmp/omni-mol-publish/my_ckpt"
-LLM_BACKBONE="/root/WDHDD2TB/download/model/Llama-3.2-1B-Instruct/"
-GRAPH_PATH="/root/autodl-tmp/omni-mol-publish/omni-mol-legacy/assets/moleculestm.pth"
+MODEL_PATH="<path to version1/2>"
+LLM_BACKBONE="<path to LLM backbone>"
+GRAPH_PATH="<path to moleculestm>"
 
 # Hardware and Inference parameters
 NUM_GPUS=4
