@@ -37,6 +37,7 @@ Omni-Mol is trained on 16 tasks, the detail is summarized below
 First clone this project
 ```bash
 git clone https://github.com/1789336421/Omni-Mol.git
+cd Omni-Mol
 ```
 
 Install `uv`
@@ -107,7 +108,10 @@ The NLTK data can be placed in these directories
 5. Run `unzip wordnet.zip` and `rm wordnet.zip`
 
 ### Download Llama from Meta
-Download `meta-llama/Llama-3.2-1B-Instruct` from HuggingFace, it is used as the language backbone `LLM_BACKBONE` in `scripts/test.sh`.
+Download `meta-llama/Llama-3.2-1B-Instruct` from HuggingFace, it is used as the language backbone `LLM_BACKBONE` in `scripts/test.sh`. Also, please put the LLM in a folder like this:
+```bash
+Omni-Mol/llms/Llama-3.2-1B-Instruct
+```
 
 ## 📊 Evaluation
 Download the dataset, model weights from HuggingFace
