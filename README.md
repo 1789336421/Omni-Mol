@@ -4,7 +4,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 <div align="center">
 
 <a href="https://arxiv.org/abs/2502.01074"><img src="https://img.shields.io/static/v1?label=NeurIPS2025&message=Paper&color=red"></a>
-<a href="https://huggingface.co/datasets/CodeMagic/Omni-Mol-Dataset"><img src="https://img.shields.io/static/v1?label=🤗HuggingFace&message=Models+Data&color=yellow"></a>
+<a href="https://huggingface.co/datasets/CodeMagic/Omni-Mol-Dataset"><img src="https://img.shields.io/static/v1?label=HuggingFace&message=Models+Data&color=yellow"></a>
 <img src="https://img.shields.io/badge/Num_Tasks-16-blue">
 [![GitHub Repo stars](https://img.shields.io/github/stars/1789336421/Omni-Mol)](https://github.com/1789336421/Omni-Mol/stargazers)
 
@@ -105,6 +105,9 @@ The NLTK data can be placed in these directories
 3. Create a dirctory structure like this: `nltk_data/corpora/`
 4. Move the `wordnet.zip` into `nltk_data/corpora/`
 5. Run `unzip wordnet.zip` and `rm wordnet.zip`
+
+### Download Llama from Meta
+Download `meta-llama/Llama-3.2-1B-Instruct` from HuggingFace, it is used as the language backbone `LLM_BACKBONE` in `scripts/test.sh`.
 
 ## 📊 Evaluation
 Download the dataset, model weights from HuggingFace
