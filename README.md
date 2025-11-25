@@ -221,6 +221,9 @@ The available community dataset contains only final answers; however, we posit t
 
 **`Possible Solution`**: To create high-quality SFT data, one can use rejection sampling on commercial or open-source LLMs to distill reasoning steps. Researchers should also explore diverse data synthesis techniques. Additionally, mixing in general reasoning data during training is recommended. After the SFT, one can further train the model with **RLVR**, the popular DeepSeek-R1 like training.
 
+>[!NOTE]
+> We also release some of the distilled data from Qwen 2.5, check our HuggingFace repository if you are interested!
+
 ### 3 Multi-turn Molecule Understanding
 If joint training is able to improve the performance of individual tasks, it is highly probable that training the model to solve diverse tasks based on the same molecules will enable the model to develop a deeper understanding of those molecules. One can search our dataset to collect the tasks that involve a certain molecule or set of molecules, and then use commercial LLMs to construct multi-turn conversation data.
 
