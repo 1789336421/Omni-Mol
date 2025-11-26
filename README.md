@@ -240,3 +240,4 @@ We thank [MoleculeSTM](https://github.com/chao1224/MoleculeSTM) for their GNN en
   year={2025}
 }
 ```
+![badge](https://visitor-badge.laobi.icu/badge?page_id=1789336421.Omni-Mol)
