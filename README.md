@@ -227,6 +227,9 @@ The available community dataset contains only final answers; however, we posit t
 ### 3 Multi-turn Molecule Understanding
 If joint training is able to improve the performance of individual tasks, it is highly probable that training the model to solve diverse tasks based on the same molecules will enable the model to develop a deeper understanding of those molecules. One can search our dataset to collect the tasks that involve a certain molecule or set of molecules, and then use commercial LLMs to construct multi-turn conversation data.
 
+## 🌟 Acknowledgement
+We thank [MoleculeSTM](https://github.com/chao1224/MoleculeSTM) for their GNN encoder, we also thank [InstructMol](https://github.com/IDEA-XL/InstructMol), [PRESTO](https://github.com/IDEA-XL/PRESTO/tree/main) for their prior explorations.
+
 ## ✍️ Citation
 ```bibtex
 @inproceedings{
