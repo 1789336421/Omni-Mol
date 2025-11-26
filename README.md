@@ -12,7 +12,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 </div>
 
 ## 🔉 News
-- [2025.11] We release our model and inference code! We're currently refactoring our entire codebase to ensure it's clean and well-organized, which we believe will benefit the community. Sorry for the wait, the training code is on the road!
+- [2025.11] We release our model and inference code! We're currently refactoring our entire codebase to ensure it's clean and well-organized, which we believe will benefit the community. The training code is on the road!
 - [2025.11] We release our dataset.
 - [2025.10] We are cleaning our code and peparing the data, they will be released soon.
 - [2025.09] The paper is accepted by NeurIPS2025.
