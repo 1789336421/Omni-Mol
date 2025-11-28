@@ -255,12 +255,12 @@ class MolcapDataset(BaseGraphTaskDataset):
         if not len(data_dict['input_ids'][0]) > self.tokenizer.model_max_length:
             return data_dict
         
-        logger.warning(f"input too long {len(data_dict['input_ids'])}, selfies dropped.")
+        logger.warning(f"input too long {len(data_dict['input_ids'][0])}, selfies dropped.")
         instruction = random.choice(self.question_pool)
         instruction = "<image>\n" + instruction
         messages[0][0]["value"] = instruction
         data_dict = apply_chat_template(messages, self.tokenizer, has_image=True)
-        logger.warning(f"Adjusted length {len(data_dict['input_ids'])}")
+        logger.warning(f"Adjusted length {len(data_dict['input_ids'][0])}")
 
         return data_dict
     
