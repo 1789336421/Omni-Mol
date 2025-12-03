@@ -40,6 +40,25 @@ TASK_MAP = {
     "molediting": MolEditing,
 }
 
+MAP2FILE = {
+    "forward": "forward_prediction",
+    "reagent": "reagent_prediction",
+    "retrosynthesis": "retrosynthesis",
+    "molcap": "molcap",
+    "homolumo": "property_prediction",
+    "solvent": "solvent_pred",
+    "catalyst": "catalyst_pred",
+    "yield": "yield_regression",
+    "experiment": "exp_procedure_pred",
+    "tpsa": "TPSA",
+    "weight": "Molecular_Weight",
+    "dqa": "DescriptionQA",
+    "logp": "LogP",
+    "iupac": "IUPAC2SELFIES",
+    'textguidedmolgen': "text_guided_mol_generation",
+    "molediting": "molecule_editing"
+}
+
 MODEL_CLS_MAP = {
     "llama": CustomLlamaForCausalLM,
 }

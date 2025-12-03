@@ -3,3 +3,5 @@ cache
 infer
 uv.lock
 .venv
+tf-logs
+_checkpoints

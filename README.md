@@ -12,6 +12,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 </div>
 
 ## 🔉 News
+- [2025.12] ⚠️ Thank you guys for your interest in this work! We are releasing a preview version of the training code, which has been minimally cleaned up from our internal codebase. Please note that this code has not been validated through retraining and is highly unreadable. Our computational resources are limited, and time is indeed tight. However, if everything goes well, you should be able to achieve performance comparable to Version 2. We will conduct a full refactoring and validation as soon as possible.
 - [2025.11] We release our model and inference code! We're currently refactoring our entire codebase to ensure it's clean and well-organized, which we believe will benefit the community. The training code is on the road!
 - [2025.11] We release our dataset.
 - [2025.10] We are cleaning our code and peparing the data, they will be released soon.
@@ -196,6 +197,24 @@ Another one is the metric related to this task, the filename is `{task_nam}_metr
 
 > [!WARNING]
 > We are still refactoring the part of the code for molecule editing task.
+
+## 🚀 Training
+> [!WARNING]
+> This is a preview version of the training code, which has been minimally cleaned up from our internal codebase. Please note that this code has not been validated through retraining and is highly unreadable. Our computational resources are limited, and time is indeed tight. However, if everything goes well, you should be able to achieve performance comparable to `Version 2`. We will conduct a full refactoring and validation as soon as possible.
+
+The training script is in `scripts/train.sh`, some key arguments are listed below
+| Argument | Type | Description |
+| :--- | :---: | :--- |
+| `INIT_CHECKPOINT_GNN` | str | Directory to `moleculestm.pth` |
+| `MODEL_PATH` | str | Path to Llama3.2-1B LLM from HuggingFace |
+| `--data_path` | str | Path to the Omni-Mol train set, should be the train folder | 
+| `--pretrain_mm_mlp_adapter` | str | Path to `mm_projector.bin` |
+
+Fill the above parameters with the downloaded assets from our HuggingFace repo, and run
+```bash
+bash scripts/train.sh
+```
+
 
 ## 🔭 Future Directions
 Here, we provide our insights about this area and the possible future research directions.

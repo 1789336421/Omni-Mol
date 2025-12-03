@@ -446,8 +446,6 @@ class IUPAC(BaseGraphTaskDataset):
         data_dict = apply_chat_template(messages, self.tokenizer, has_image=(graph is not None))
         input_ids = data_dict["input_ids"][0]
         labels = data_dict["labels"][0]
-        
-        assert -200 in input_ids, "Input IDs missing expected <image> token"
 
         return {
             "input_ids": input_ids,
@@ -486,8 +484,6 @@ class TextGuidedMolGen(BaseGraphTaskDataset):
         data_dict = apply_chat_template(messages, self.tokenizer, has_image=(graph is not None))
         input_ids = data_dict["input_ids"][0]
         labels = data_dict["labels"][0]
-        
-        assert -200 in input_ids, "Input IDs missing expected <image> token"
 
         return {
             "input_ids": input_ids,
