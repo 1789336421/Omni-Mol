@@ -12,7 +12,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 </div>
 
 ## 🔉 News
-- [2025.12] ⚠️ Thank you guys for your interest in this work! We are releasing a preview version of the training code, which has been minimally cleaned up from our internal codebase. Please note that this code has not been validated through retraining and is highly unreadable. Our computational resources are limited, and time is indeed tight. However, if everything goes well, you should be able to achieve performance comparable to Version 2. We will conduct a full refactoring and validation as soon as possible.
+- [2025.12] ⚠️ Thank you for your interest in this work! We are releasing a preview version of the training code, which is not yet fully compatible with the released inference code. Please note that this code has not been completely validated through retraining and readability is currently low. However, if everything goes well, you should be able to achieve performance comparable to Version 2 weight on **Huggingface**. We will conduct a full refactoring and validation as soon as possible.
 - [2025.11] We release our model and inference code! We're currently refactoring our entire codebase to ensure it's clean and well-organized, which we believe will benefit the community. The training code is on the road!
 - [2025.11] We release our dataset.
 - [2025.10] We are cleaning our code and peparing the data, they will be released soon.
