@@ -8,7 +8,7 @@ import numpy as np
 import selfies
 
 from rdkit import Chem, DataStructs, RDLogger
-from rdkit.Chem import MACCSkeys, AllChem
+from rdkit.Chem import MACCSkeys, AllChem, QED, DataStructs
 from nltk.translate.bleu_score import corpus_bleu
 from nltk.translate.bleu_score import corpus_bleu
 from nltk.translate.meteor_score import meteor_score
@@ -20,6 +20,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from loggers import WrappedLogger
 from utils import save_json
 from typing import Optional
+from collections import defaultdict
 
 logger = WrappedLogger(__name__)
 RDLogger.DisableLog('rdApp.*')
@@ -499,12 +500,114 @@ def calculate_text_scores(
         
     return metrics
 
+def safe_mol_from_selfies(selfies_str: str, eos_token: str, pbar_writer=None) -> Chem.Mol:
+    try:
+        if eos_token:
+            selfies_str = selfies_str.split(eos_token)[0]
+        smiles = decode_selfies(selfies_str)
+        return Chem.MolFromSmiles(smiles)
+    except (ValueError, AttributeError, Exception) as e:
+        if pbar_writer:
+            pbar_writer.write(f"{e}")
+        return None
+    
+def get_similarity(mol1: Chem.Mol, mol2: Chem.Mol) -> float:
+    fp1 = AllChem.GetMorganFingerprintAsBitVect(mol1, radius=2, nBits=2048)
+    fp2 = AllChem.GetMorganFingerprintAsBitVect(mol2, radius=2, nBits=2048)
+    return DataStructs.TanimotoSimilarity(fp1, fp2)
+
+def check_drd2_condition(mol: Chem.Mol) -> bool:
+    # Placeholder
+    return False
+
 def calculate_moledit_metrics(
     data: list[dict], 
     save_path: str = None,
     eos_token = "<|end|>"
 ):
-    return None
+    tracker = defaultdict(lambda: {"hits": 0, "count": 0})
+    valid_samples = 0
+    
+    required_keys = [
+        "QED>=0.6", "DRD2>=0.5", "QED>=0.6,DRD2>=0.5",
+        "Sim>=0.4,QED>=0.6", "Sim>=0.4,DRD2>=0.5", 
+        "Sim>=0.4,QED>=0.6,DRD2>=0.5"
+    ]
+    # Pre-seed tracker to ensure keys exist
+    for k in required_keys: _ = tracker[k]
+    
+    pbar = tqdm(total=len(data), desc="MolEdit")
+    for raw in data:
+        pbar.update(1)
+        # 1. Parsing
+        mol_gt = safe_mol_from_selfies(raw['gt'], eos_token, pbar)
+        mol_pred = safe_mol_from_selfies(raw['pred'], eos_token, pbar)
+
+        if mol_gt is None or mol_pred is None:
+            continue
+            
+        valid_samples += 1
+
+        # 2. Metric Calculation
+        sim_val = get_similarity(mol_gt, mol_pred)
+        qed_val = QED.qed(mol_pred)
+        is_drd2_match = check_drd2_condition(mol_pred)
+
+        # 3. Define Success Predicates
+        pass_qed = qed_val >= 0.6
+        pass_sim = sim_val >= 0.4
+        pass_drd2 = is_drd2_match
+
+        # 4. Determine Context and Relevant Keys
+        is_qed_task = "QED" in raw["prompt"]
+        is_drd2_task = "DRD2" in raw["prompt"]
+
+        active_checks = [] # List of (Key, Is_Success)
+
+        if is_qed_task and not is_drd2_task:
+            active_checks = [
+                ("QED>=0.6", pass_qed),
+                ("Sim>=0.4,QED>=0.6", pass_sim and pass_qed)
+            ]
+        elif is_drd2_task and not is_qed_task:
+            active_checks = [
+                ("DRD2>=0.5", pass_drd2),
+                ("Sim>=0.4,DRD2>=0.5", pass_sim and pass_drd2)
+            ]
+        elif is_qed_task and is_drd2_task:
+            active_checks = [
+                ("QED>=0.6,DRD2>=0.5", pass_qed and pass_drd2),
+                ("Sim>=0.4,QED>=0.6,DRD2>=0.5", pass_sim and pass_qed and pass_drd2)
+            ]
+
+        # 5. Update Aggregates
+        for key, success in active_checks:
+            tracker[key]["count"] += 1
+            if success:
+                tracker[key]["hits"] += 1
+
+    final_scores = {}
+    for key in required_keys:
+        stats = tracker[key]
+        if stats["count"] > 0:
+            final_scores[key] = stats["hits"] / stats["count"]
+        else:
+            final_scores[key] = 0.0
+            
+    final_scores["Validity"] = valid_samples / len(data) if data else 0.0
+    
+    pbar.write("--- Evaluation Metrics ---")
+    for key, value in final_scores.items():
+        pbar.write(f"{key}: {value:.4f}" if isinstance(value, float) else f"{key}: {value}")
+    pbar.write("--------------------------")
+    
+    if save_path:
+        save_json(final_scores, save_path)
+        pbar.write(f"Metric file saved to {save_path}")
+        
+    pbar.close()
+        
+    return final_scores
 
 if __name__ == "__main__":
     # Test reaction metrics
