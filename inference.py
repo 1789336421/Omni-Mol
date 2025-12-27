@@ -344,7 +344,8 @@ def calculate_metrics(
     task_name: str, 
     metric_save_path: str = None, 
     eos_token: str = None, 
-    tokenizer: PreTrainedTokenizer = None
+    tokenizer: PreTrainedTokenizer = None,
+    drd2_scorer_path: str = None
 ):
     if task_name in (
         "forward", "reagent", "retrosynthesis", "solvent",
@@ -362,7 +363,7 @@ def calculate_metrics(
     elif task_name in ("yield_BH", "yield_SM"):
         calculate_r2(results, metric_save_path, eos_token)
     elif task_name == "molediting":
-        calculate_moledit_metrics(results, metric_save_path, eos_token)
+        calculate_moledit_metrics(results, metric_save_path, drd2_scorer_path, eos_token)
     else:
         raise ValueError(f"Task name {task_name} is invalid!")
         
@@ -467,7 +468,7 @@ def main(args):
     print(f"Calculating metrics and save to {metric_save_path}")
     calculate_metrics(
         all_results, args.task_name, metric_save_path, 
-        LLAMA3_EOS, tokenizer
+        LLAMA3_EOS, tokenizer, args.drd2_scorer_path
     )
     
     exit(0)
@@ -520,6 +521,11 @@ if __name__ == "__main__":
         "--prompt_version",
         type=str,
         default="llama3"
+    )
+    parser.add_argument(
+        "--drd2_scorer_path",
+        type=str,
+        required=True
     )
     
     # Sampling Params

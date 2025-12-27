@@ -12,6 +12,7 @@ GitHub REPO for paper *Omni-Mol: Multitask Molecular Model for Any-to-any Modali
 </div>
 
 ## 🔉 News
+- [2025.12] Update full metric suit for MolEdit task.
 - [2025.12] ⚠️ Thank you for your interest in this work! We are releasing a preview version of the training code, which is not yet fully compatible with the released inference code. Please note that this code has not been completely validated through retraining and readability is currently low. However, if everything goes well, you should be able to achieve performance comparable to Version 2 weight on **Huggingface**. We will conduct a full refactoring and validation as soon as possible.
 - [2025.11] We release our model and inference code! We're currently refactoring our entire codebase to ensure it's clean and well-organized, which we believe will benefit the community. The training code is on the road!
 - [2025.11] We release our dataset.
@@ -148,6 +149,7 @@ Configure the `scripts/test.sh` script.
 | `MODEL_PATH` | str | Path to the Omni-Mol checkpoint | 
 | `LLM_BACKBONE` | str | Path to the LLM backbone | 
 | `GRAPH_PATH` | str | Path to moleculestm weight | 
+| `DRD2_PATH` | str | Path to DRD2 scorer weight |
 | `NUM_GPUS` | int | Set number of GPUs to use in the inference, we support parallel inference on multiple GPUs, set to 1 if you have only one GPU.
 | `TOP_P` | float | top_p sampling parameter, default to 1.0 |
 | `TEMPERATURE` | float | temperature used in sampling, default to 0.2 | 
@@ -194,9 +196,6 @@ Another one is the metric related to this task, the filename is `{task_nam}_metr
 
 > [!NOTE]
 > We're releasing two model versions: `Version 1` represents the main results presented in our paper, while `Version 2` delivers superior performance across all tasks except Yield Regression. Both versions were trained under **identical experimental conditions**.
-
-> [!WARNING]
-> We are still refactoring the part of the code for molecule editing task.
 
 ## 🚀 Training
 > [!WARNING]

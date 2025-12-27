@@ -10,6 +10,7 @@ SAVE_BASE_DIR="infer/version1/2/"
 MODEL_PATH="<path to version1/2>"
 LLM_BACKBONE="<path to LLM backbone>"
 GRAPH_PATH="<path to moleculestm>"
+DRD2_PATH="<path to drd2 scorer>"
 
 # Hardware and Inference parameters
 NUM_GPUS=4
@@ -90,6 +91,7 @@ for (( i=0; i<${NUM_TASKS}; i++ )); do
         --data_path "${DATA_PATH}" \
         --model_path "${MODEL_PATH}" \
         --language_backbone "${LLM_BACKBONE}" \
+        --drd2_scorer_path "${DRD2_PATH}" \
         --graph_path "${GRAPH_PATH}" \
         --top_p ${TOP_P} \
         --temperature ${TEMPERATURE} \

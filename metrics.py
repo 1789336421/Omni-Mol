@@ -6,6 +6,7 @@ Some metrics based on https://github.com/blender-nlp/MolT5
 import re
 import numpy as np
 import selfies
+import torch
 
 from rdkit import Chem, DataStructs, RDLogger
 from rdkit.Chem import MACCSkeys, AllChem, QED, DataStructs
@@ -21,6 +22,9 @@ from loggers import WrappedLogger
 from utils import save_json
 from typing import Optional
 from collections import defaultdict
+from model.modeling_drd2 import GNN_graphpredComplete, GNNComplete
+from data_pipe.mol_utils import smiles2graph
+from torch_geometric.data import Data
 
 logger = WrappedLogger(__name__)
 RDLogger.DisableLog('rdApp.*')
@@ -516,16 +520,42 @@ def get_similarity(mol1: Chem.Mol, mol2: Chem.Mol) -> float:
     fp2 = AllChem.GetMorganFingerprintAsBitVect(mol2, radius=2, nBits=2048)
     return DataStructs.TanimotoSimilarity(fp1, fp2)
 
-def check_drd2_condition(mol: Chem.Mol) -> bool:
-    # Placeholder
-    return False
+def check_drd2_condition(mol: str, scorer) -> bool:
+    graph_dict = smiles2graph(mol)
+    if graph_dict is None:
+        return False
+    x = torch.from_numpy(graph_dict['node_feat']).long()
+    edge_index = torch.from_numpy(graph_dict['edge_index']).long()
+    edge_attr = torch.from_numpy(graph_dict['edge_feat']).long()
+    data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
+    prediction = scorer.forward(data)
+    return prediction > 0
 
 def calculate_moledit_metrics(
     data: list[dict], 
     save_path: str = None,
+    drd2_scorer_path: str = None,
     eos_token = "<|end|>"
 ):
     tracker = defaultdict(lambda: {"hits": 0, "count": 0})
+    drd2_scorer_backbone = GNNComplete(
+        num_layer=5,
+        emb_dim=300,
+        JK="last",
+        drop_ratio=0,
+        gnn_type="gin"
+    )
+    drd2_scorer = GNN_graphpredComplete(
+        num_layer=5,
+        emb_dim=300,
+        JK="last",
+        graph_pooling="mean",
+        num_tasks=1,
+        molecule_model=drd2_scorer_backbone
+    )
+    drd2_weight = torch.load(drd2_scorer_path)
+    drd2_scorer.load_state_dict(drd2_weight)
+    drd2_scorer.eval()
     valid_samples = 0
     
     required_keys = [
@@ -542,6 +572,11 @@ def calculate_moledit_metrics(
         # 1. Parsing
         mol_gt = safe_mol_from_selfies(raw['gt'], eos_token, pbar)
         mol_pred = safe_mol_from_selfies(raw['pred'], eos_token, pbar)
+        if eos_token is not None:
+            pred_selfies = raw['pred'].split(eos_token)[0]
+        else:
+            pred_selfies = raw['pred']
+        smiles_pred = decode_selfies(pred_selfies)
 
         if mol_gt is None or mol_pred is None:
             continue
@@ -551,7 +586,7 @@ def calculate_moledit_metrics(
         # 2. Metric Calculation
         sim_val = get_similarity(mol_gt, mol_pred)
         qed_val = QED.qed(mol_pred)
-        is_drd2_match = check_drd2_condition(mol_pred)
+        is_drd2_match = check_drd2_condition(smiles_pred, drd2_scorer)
 
         # 3. Define Success Predicates
         pass_qed = qed_val >= 0.6
